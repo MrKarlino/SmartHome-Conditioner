@@ -9,16 +9,25 @@ class ConditionTest {
     @Test
     void testIncreaseCurrentTemperature() {
         Condition condition = new Condition();
-        int maxTemperature = 35;
 
         condition.setOn(true);
+        condition.setCurrentTemperature(Condition.MIN_TEMPERATURE);
+        int expected = Condition.MIN_TEMPERATURE + 1;
+        condition.increaseCurrentTemperature();
+        int actual = condition.getCurrentTemperature();
+        assertEquals(expected, actual);
+    }
 
-        for (int i = condition.getCurrentTemperature(); i < (maxTemperature + 1); i++) {
-            int expected = Math.min(condition.getCurrentTemperature() + 1, maxTemperature);
-            condition.increaseCurrentTemperature();
-            int actual = condition.getCurrentTemperature();
-            assertEquals(expected, actual);
-        }
+    @Test
+    void testIncreaseCurrentTemperatureOverLimit() {
+        Condition condition = new Condition();
+
+        condition.setOn(true);
+        condition.setCurrentTemperature(Condition.MAX_TEMPERATURE);
+        int expected = Condition.MAX_TEMPERATURE;
+        condition.increaseCurrentTemperature();
+        int actual = condition.getCurrentTemperature();
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -35,16 +44,25 @@ class ConditionTest {
     @Test
     void testDecreaseCurrentTemperature() {
         Condition condition = new Condition();
-        int minTemperature = 15;
 
         condition.setOn(true);
+        condition.setCurrentTemperature(Condition.MAX_TEMPERATURE);
+        int expected = Condition.MAX_TEMPERATURE - 1;
+        condition.decreaseCurrentTemperature();
+        int actual = condition.getCurrentTemperature();
+        assertEquals(expected, actual);
+    }
 
-        for (int i = condition.getCurrentTemperature(); i > (minTemperature - 1); i--) {
-            int expected = Math.max(condition.getCurrentTemperature() - 1, minTemperature);
-            condition.decreaseCurrentTemperature();
-            int actual = condition.getCurrentTemperature();
-            assertEquals(expected, actual);
-        }
+    @Test
+    void testDecreaseCurrentTemperatureUnderLimit() {
+        Condition condition = new Condition();
+
+        condition.setOn(true);
+        condition.setCurrentTemperature(Condition.MIN_TEMPERATURE);
+        int expected = Condition.MIN_TEMPERATURE;
+        condition.decreaseCurrentTemperature();
+        int actual = condition.getCurrentTemperature();
+        assertEquals(expected, actual);
     }
 
     @Test
